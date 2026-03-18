@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhishek Tewari — Product Strategy & AI Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#050810; --bg2:#080d1a; --bgc:#0b1120; --bgc2:#0e1628;
+      --cyan:#00f5ff; --cdim:rgba(0,245,255,0.12); --cglow:rgba(0,245,255,0.32);
+      --mag:#ff2d78; --mdim:rgba(255,45,120,0.12);
+      --green:#00ff88;
+      --tx:#c8d8f0; --txd:#6a7fa0; --txm:#3a4a60;
+      --bdr:rgba(0,245,255,0.1); --bdrh:rgba(0,245,255,0.38);
+      --mono:'Share Tech Mono',monospace;
+      --title:'Orbitron',sans-serif;
+      --body:'Inter',sans-serif;
+      --max:1100px; --ease:0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--tx);font-family:var(--body);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{color:inherit;text-decoration:none;}
+    /* scanlines */
+    body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:9999;}
+    /* scrollbar */
+    ::-webkit-scrollbar{width:3px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--cyan);}
+    /* layout */
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 2rem;}
+    .section{padding:7rem 0;}
+    /* ── EDUCATION STRIP ── */
+    .edu-strip{background:var(--bg2);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:2rem 0;position:relative;z-index:1;}
+    .edu-inner{display:flex;flex-direction:column;gap:0;}
+    .edu-item{display:flex;align-items:center;gap:1.5rem;padding:1rem 0;flex-wrap:wrap;}
+    .edu-item:first-child{border-bottom:1px solid var(--bdr);}
+    .edu-badge{font-family:var(--title);font-size:.72rem;font-weight:700;color:var(--bg);background:var(--cyan);padding:.3rem .6rem;border-radius:2px;letter-spacing:.08em;flex-shrink:0;min-width:38px;text-align:center;}
+    .edu-info{flex:1;min-width:0;}
+    .edu-school{font-family:var(--title);font-size:.78rem;font-weight:600;color:#fff;letter-spacing:.03em;margin-bottom:.2rem;}
+    .edu-degree{font-family:var(--mono);font-size:.65rem;color:var(--txd);letter-spacing:.05em;}
+    .edu-meta{text-align:right;flex-shrink:0;}
+    .edu-gpa{font-family:var(--title);font-size:.9rem;font-weight:700;color:var(--cyan);text-shadow:0 0 12px var(--cglow);}
+    .edu-year{font-family:var(--mono);font-size:.62rem;color:var(--txm);letter-spacing:.08em;margin-top:.15rem;}
+    .edu-avail{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.65rem;color:var(--green);letter-spacing:.06em;border:1px solid rgba(0,255,136,.2);padding:.3rem .75rem;border-radius:2px;background:rgba(0,255,136,.03);flex-shrink:0;white-space:nowrap;}
+    .edu-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 8px rgba(0,255,136,.8);animation:blink 1.8s infinite;flex-shrink:0;}
+
+    hr.rule{border:none;border-top:1px solid var(--bdr);}
+    /* type helpers */
+    .lbl{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);}
+    /* grid bg */
+    .gridbg{position:fixed;inset:0;background:linear-gradient(rgba(0,245,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.025) 1px,transparent 1px);background-size:55px 55px;pointer-events:none;z-index:0;}
+    .gridbg::before{content:'';position:absolute;top:-20%;right:-10%;width:60%;height:70%;background:radial-gradient(ellipse,rgba(0,245,255,0.055) 0%,transparent 65%);}
+    .gridbg::after{content:'';position:absolute;bottom:-10%;left:-10%;width:50%;height:50%;background:radial-gradient(ellipse,rgba(255,45,120,0.04) 0%,transparent 65%);}
+
+    /* ── NAV ─────────────────────────────────────────────────── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(5,8,16,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);transition:border-color var(--ease);}
+    nav::before{content:'';position:absolute;bottom:-1px;left:0;width:80px;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);}
+    nav::after{content:'';position:absolute;bottom:-1px;right:0;width:80px;height:2px;background:linear-gradient(270deg,var(--mag),transparent);}
+    nav.scrolled{border-bottom-color:var(--bdrh);}
+    .nlogo{font-family:var(--title);font-size:0.9rem;font-weight:700;letter-spacing:0.12em;color:var(--tx);}
+    .nlogo span{color:var(--cyan);}
+    /* always-visible nav links */
+    .nlinks{display:flex;align-items:center;gap:0.2rem;list-style:none;}
+    .nlinks a{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--txd);padding:0.38rem 0.8rem;border:1px solid transparent;border-radius:2px;transition:color var(--ease),border-color var(--ease),background var(--ease);}
+    .nlinks a:hover,.nlinks a.active{color:var(--cyan);border-color:var(--bdrh);background:var(--cdim);}
+    .ncta{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.42rem 1.1rem;border:1px solid var(--cyan);border-radius:2px;color:var(--cyan);transition:background var(--ease),color var(--ease),box-shadow var(--ease);white-space:nowrap;}
+    .ncta:hover{background:var(--cyan);color:var(--bg);box-shadow:0 0 22px var(--cglow);}
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 2rem 4rem;max-width:var(--max);margin:0 auto;position:relative;z-index:1;}
+    .hero-eye{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;opacity:0;animation:up 0.7s ease forwards 0.3s;}
+    .heyline{width:30px;height:1px;background:var(--cyan);box-shadow:0 0 8px var(--cyan);}
+    .hero-title{font-family:var(--title);font-size:clamp(2rem,5vw,4rem);font-weight:900;line-height:1.1;letter-spacing:0.01em;color:#fff;opacity:0;animation:up 0.7s ease forwards 0.5s;}
+    .hero-title .c{color:var(--cyan);text-shadow:0 0 28px var(--cglow);}
+    .hero-title .m{color:var(--mag);text-shadow:0 0 28px rgba(255,45,120,0.4);}
+    /* glitch on first line */
+    .glitch{position:relative;}
+    .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+    .glitch::before{color:var(--cyan);clip-path:polygon(0 0,100% 0,100% 45%,0 45%);transform:translateX(-2px);opacity:0;animation:g1 5s infinite 3s;}
+    .glitch::after{color:var(--mag);clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);transform:translateX(2px);opacity:0;animation:g2 5s infinite 3.1s;}
+    @keyframes g1{0%,93%,100%{opacity:0;}94%{opacity:.7;transform:translateX(-4px);}96%{opacity:.7;transform:translateX(2px);}}
+    @keyframes g2{0%,93%,100%{opacity:0;}94%{opacity:.7;transform:translateX(4px);}96%{opacity:.7;transform:translateX(-2px);}}
+    .hero-sub{max-width:570px;font-size:1rem;color:var(--txd);line-height:1.85;margin:1.75rem 0 2.5rem;opacity:0;animation:up 0.7s ease forwards 0.7s;}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:up 0.7s ease forwards 0.9s;margin-bottom:4rem;}
+    .bcyan{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:.85rem 2rem;background:var(--cyan);color:var(--bg);border-radius:2px;display:inline-block;transition:box-shadow var(--ease),transform var(--ease);}
+    .bcyan:hover{box-shadow:0 0 28px var(--cglow),0 0 60px rgba(0,245,255,0.12);transform:translateY(-2px);}
+    .boutline{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:.85rem 2rem;background:transparent;border:1px solid var(--bdrh);color:var(--cyan);border-radius:2px;display:inline-block;transition:background var(--ease),box-shadow var(--ease),transform var(--ease);}
+    .boutline:hover{background:var(--cdim);box-shadow:0 0 20px var(--cglow);transform:translateY(-2px);}
+    .hstats{display:flex;gap:3rem;flex-wrap:wrap;border-top:1px solid var(--bdr);padding-top:2rem;opacity:0;animation:up 0.7s ease forwards 1.1s;}
+    .snum{font-family:var(--title);font-size:1.6rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:.3rem;text-shadow:0 0 18px var(--cglow);}
+    .slbl{font-family:var(--mono);font-size:0.62rem;letter-spacing:.1em;color:var(--txm);text-transform:uppercase;}
+
+    /* ── STRIP ───────────────────────────────────────────────── */
+    .strip{border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:3rem 0;background:var(--bg2);position:relative;z-index:1;}
+    .strip::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+    .strip-inner{display:grid;grid-template-columns:repeat(3,1fr);}
+    .si{padding:1.5rem 2rem;border-right:1px solid var(--bdr);position:relative;}
+    .si:last-child{border-right:none;}
+    .si::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--cyan);transition:height .5s ease;}
+    .si:hover::before{height:100%;}
+    .sin{font-family:var(--mono);font-size:0.63rem;color:var(--cyan);letter-spacing:.12em;margin-bottom:.75rem;}
+    .sit{font-family:var(--title);font-size:0.8rem;font-weight:600;color:#fff;letter-spacing:.05em;margin-bottom:.45rem;}
+    .sib{font-size:0.84rem;color:var(--txd);line-height:1.65;}
+
+    /* ── SECTION HEADING ─────────────────────────────────────── */
+    .sec-h{font-family:var(--title);font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:700;color:#fff;letter-spacing:.02em;line-height:1.2;margin-top:.7rem;}
+    .sec-h span{color:var(--cyan);}
+
+    /* ── ABOUT ───────────────────────────────────────────────── */
+    .about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:start;}
+    .about-left{position:sticky;top:80px;}
+    .about-body p{font-size:.94rem;color:var(--txd);margin-bottom:1.2rem;line-height:1.85;}
+    .about-body p strong{color:var(--tx);font-weight:500;}
+    .tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.5rem;}
+    .tag{font-family:var(--mono);font-size:.63rem;letter-spacing:.07em;padding:.28rem .7rem;border:1px solid var(--bdr);border-radius:2px;color:var(--txd);background:var(--bgc);transition:border-color var(--ease),color var(--ease),background var(--ease);}
+    .tag:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cdim);}
+
+    /* ── CASES ───────────────────────────────────────────────── */
+    .whd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;}
+    .cases{display:flex;flex-direction:column;gap:1rem;}
+    .case{border:1px solid var(--bdr);background:var(--bgc);border-radius:4px;overflow:hidden;transition:border-color var(--ease),box-shadow var(--ease),transform var(--ease);position:relative;}
+    .case::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--cyan),var(--mag));opacity:0;transition:opacity var(--ease);}
+    .case:hover,.case.open{border-color:var(--bdrh);box-shadow:0 0 28px rgba(0,245,255,0.05);}
+    .case.open::before,.case:hover::before{opacity:1;}
+    .chd{display:grid;grid-template-columns:2.5rem 1fr auto;align-items:center;gap:1rem;padding:1.4rem 1.75rem;cursor:pointer;border-bottom:1px solid transparent;transition:border-color var(--ease);}
+    .case.open .chd{border-bottom-color:var(--bdr);}
+    .cn{font-family:var(--mono);font-size:.63rem;color:var(--txm);letter-spacing:.1em;}
+    .ct{font-size:.96rem;font-weight:500;color:var(--tx);margin-bottom:.35rem;}
+    .chips{display:flex;flex-wrap:wrap;gap:.3rem;}
+    .chip{font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;padding:.18rem .55rem;background:rgba(0,245,255,0.05);border:1px solid var(--bdr);border-radius:2px;color:var(--txd);}
+    .tog{width:28px;height:28px;border:1px solid var(--bdr);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--txd);transition:all var(--ease);flex-shrink:0;user-select:none;font-family:var(--mono);}
+    .case.open .tog{background:var(--cyan);color:var(--bg);border-color:var(--cyan);box-shadow:0 0 14px var(--cglow);transform:rotate(45deg);}
+    .cbody{display:none;padding:2rem 1.75rem;}
+    .case.open .cbody{display:block;}
+    .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+    .cbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:.45rem;}
+    .cbt{font-size:.88rem;color:var(--txd);line-height:1.75;}
+    .ibox{background:rgba(0,245,255,0.03);border:1px solid rgba(0,245,255,0.14);border-left:3px solid var(--cyan);padding:1rem 1.5rem;border-radius:0 4px 4px 0;margin-bottom:1.25rem;}
+    .ibox ul{list-style:none;}
+    .ibox li{font-size:.88rem;color:var(--tx);padding:.22rem 0;}
+    .ibox li::before{content:'→ ';color:var(--cyan);}
+    .qbox{padding:1rem 1.5rem;border:1px dashed rgba(0,245,255,0.16);border-radius:4px;background:rgba(0,245,255,0.02);}
+    .qbox p{font-size:.88rem;color:var(--txd);font-style:italic;line-height:1.7;}
+
+    /* ── EXPERIENCE ──────────────────────────────────────────── */
+    .expwrap{display:block;}
+    .expnav{position:sticky;top:80px;height:fit-content;min-width:0;}
+    .enl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:.5rem 0 .5rem .85rem;border-left:2px solid var(--bdr);color:var(--txm);cursor:pointer;transition:all var(--ease);margin-bottom:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .enl:hover,.enl.active{border-left-color:var(--cyan);color:var(--cyan);padding-left:1.1rem;}
+    .tl{display:flex;flex-direction:column;}
+    .ti{padding:1.75rem 0;border-bottom:1px solid var(--bdr);}
+    .ti:last-child{border-bottom:none;}
+    .titop{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.75rem;}
+    .tirole{font-family:var(--title);font-size:.82rem;font-weight:600;color:#fff;letter-spacing:.03em;margin-bottom:.2rem;}
+    .tico{font-family:var(--mono);font-size:.7rem;color:var(--cyan);letter-spacing:.06em;}
+    .tidt{font-family:var(--mono);font-size:.63rem;color:var(--txm);white-space:nowrap;padding-top:.15rem;letter-spacing:.05em;}
+    .til{list-style:none;display:flex;flex-direction:column;gap:.35rem;}
+    .til li{font-size:.86rem;color:var(--txd);line-height:1.65;padding-left:1.1rem;position:relative;}
+    .til li::before{content:'//';position:absolute;left:0;color:var(--cyan);font-family:var(--mono);font-size:.6rem;top:.22rem;}
+
+    /* ── SKILLS ──────────────────────────────────────────────── */
+    .skgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+    .sk{background:var(--bgc);border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;position:relative;overflow:hidden;transition:border-color var(--ease),box-shadow var(--ease),transform var(--ease);}
+    .sk::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--mag));transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+    .sk:hover{border-color:var(--bdrh);box-shadow:0 0 22px rgba(0,245,255,0.06);transform:translateY(-2px);}
+    .sk:hover::after{transform:scaleX(1);}
+    .ski{font-size:1.2rem;margin-bottom:.75rem;}
+    .skt{font-family:var(--title);font-size:.76rem;font-weight:600;color:#fff;letter-spacing:.05em;margin-bottom:.7rem;}
+    .skl{list-style:none;display:flex;flex-direction:column;gap:.3rem;}
+    .skl li{font-size:.81rem;color:var(--txd);padding-left:.75rem;position:relative;line-height:1.5;}
+    .skl li::before{content:'>';position:absolute;left:0;color:var(--cyan);font-family:var(--mono);font-size:.68rem;}
+
+    /* ── LOCATIONS ───────────────────────────────────────────── */
+    .locsec{background:var(--bg2);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:5rem 0;position:relative;overflow:hidden;z-index:1;}
+    .locsec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--mag),transparent);}
+    .locgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:2.5rem;}
+    .lcard{background:var(--bgc);border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:border-color var(--ease),box-shadow var(--ease),transform var(--ease);}
+    .lcard::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(0,245,255,0.04) 0%,transparent 60%);opacity:0;transition:opacity var(--ease);}
+    .lcard:hover{border-color:var(--cyan);box-shadow:0 0 28px rgba(0,245,255,0.1);transform:translateY(-3px);}
+    .lcard:hover::before{opacity:1;}
+    .lcard.cur{border-color:rgba(0,245,255,0.28);}
+    .lcard.cur::after{content:'CURRENT';position:absolute;top:.6rem;right:.75rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;color:var(--green);border:1px solid rgba(0,255,136,0.28);padding:.13rem .38rem;border-radius:2px;}
+    .lflag{font-size:2rem;margin-bottom:.75rem;display:block;}
+    .lcity{font-family:var(--title);font-size:.82rem;font-weight:700;color:#fff;letter-spacing:.08em;margin-bottom:.22rem;}
+    .lcountry{font-family:var(--mono);font-size:.62rem;color:var(--txm);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;}
+    .lstatus{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;}
+    .lstatus.open{color:var(--green);}
+    .lstatus.cur{color:var(--cyan);}
+    .reloc{margin-top:1.75rem;padding:1rem 1.5rem;border:1px solid var(--bdr);background:var(--bgc);border-radius:4px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .rdot{width:8px;height:8px;background:var(--green);border-radius:50%;flex-shrink:0;box-shadow:0 0 10px rgba(0,255,136,.6);animation:blink 1.8s infinite;}
+    @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+    .rtxt{font-family:var(--mono);font-size:.7rem;color:var(--txd);letter-spacing:.05em;}
+    .rtxt strong{color:var(--tx);}
+
+    /* ── CONTACT ─────────────────────────────────────────────── */
+    .ctcsec{background:var(--bg);padding:7rem 0;position:relative;z-index:1;}
+    .ctcsec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+    .ctcgrid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+    .ctch{font-family:var(--title);font-size:clamp(1.4rem,2.4vw,2rem);font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.3;margin:.75rem 0 1.25rem;}
+    .ctch span{color:var(--cyan);text-shadow:0 0 18px var(--cglow);}
+    .ctcsub{font-size:.92rem;color:var(--txd);line-height:1.85;margin-bottom:1.75rem;max-width:400px;}
+    .avail{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--green);border:1px solid rgba(0,255,136,.22);padding:.5rem 1rem;border-radius:2px;background:rgba(0,255,136,.03);}
+    .dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px rgba(0,255,136,.8);animation:blink 1.8s infinite;}
+    .ctclinks{display:flex;flex-direction:column;}
+    .cl{display:flex;align-items:center;gap:1rem;font-size:.875rem;color:var(--txd);padding:1rem 0;border-bottom:1px solid var(--bdr);transition:color var(--ease),padding-left var(--ease);}
+    .cl:last-child{border-bottom:none;}
+    .cl:hover{color:var(--cyan);padding-left:.5rem;}
+    .cll{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--txm);min-width:64px;}
+    .cla{margin-left:auto;opacity:0;transition:opacity var(--ease),transform var(--ease);font-family:var(--mono);}
+    .cl:hover .cla{opacity:1;transform:translateX(4px);}
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 2rem;border-top:1px solid var(--bdr);flex-wrap:wrap;gap:.5rem;}
+    footer p{font-family:var(--mono);font-size:.66rem;color:var(--txm);letter-spacing:.06em;}
+    footer p span{color:var(--cyan);}
+
+    /* ── ANIMATIONS ──────────────────────────────────────────── */
+    @keyframes up{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}.reveal.d3{transition-delay:.3s;}
+    .reveal.vis{opacity:1;transform:translateY(0);}
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media(max-width:960px){
+      .nlinks a{padding:.34rem .5rem;font-size:.6rem;}
+      .ncta{font-size:.6rem;padding:.4rem .8rem;}
+      .about-grid{grid-template-columns:1fr;gap:3rem;} .about-left{position:static;}
+      .expwrap{grid-template-columns:1fr;} .expnav{display:none;}
+      .strip-inner{grid-template-columns:1fr;}
+      .si{border-right:none;border-bottom:1px solid var(--bdr);} .si:last-child{border-bottom:none;}
+      .ctcgrid{grid-template-columns:1fr;gap:3rem;}
+      .cgrid{grid-template-columns:1fr;}
+      .skgrid{grid-template-columns:1fr 1fr;}
+      .locgrid{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:1100px){
+      .expnav{display:none;}
+      .expwrap{grid-template-columns:1fr;}
+    }
+    @media(max-width:640px){
+      nav{padding:0 1rem;}
+      .nlinks{display:none;}
+      .ncta{display:block;}
+      .skgrid{grid-template-columns:1fr;}
+      .locgrid{grid-template-columns:1fr 1fr;}
+      .hstats{gap:1.5rem;}
+    }
+  </style>
+</head>
+<body>
+<div class="gridbg"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nlogo"><span>[</span>AT<span>]</span></div>
+  <ul class="nlinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#locations">Locations</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:abhishektewari71@gmail.com" class="ncta">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section style="position:relative;z-index:1;">
+  <div class="hero">
+    <div class="hero-eye">
+      <div class="heyline"></div>
+      <span class="lbl">Product Strategy · AI Systems · UX Research</span>
+    </div>
+    <div class="hero-title glitch" data-text="TURNING AI COMPLEXITY">TURNING AI COMPLEXITY</div>
+    <div class="hero-title" style="animation-delay:.55s;">INTO <span class="c">DECISIONS</span></div>
+    <div class="hero-title" style="animation-delay:.6s;">THAT <span class="m">SHIP.</span></div>
+    <p class="hero-sub">I sit at the intersection of AI operations, product strategy, and systems thinking. Five years building human-in-the-loop AI at scale for Fortune 10 clients — now applying that execution lens to product and growth as an MS candidate at Parsons (4.0 GPA).</p>
+    <div class="hero-btns">
+      <a href="#work" class="bcyan">View Selected Work</a>
+      <a href="#contact" class="boutline">Let's Connect</a>
+    </div>
+    <div class="hstats">
+      <div><div class="snum">5+</div><div class="slbl">Years in AI Ops</div></div>
+      <div><div class="snum">4.0</div><div class="slbl">GPA · Parsons MS</div></div>
+      <div><div class="snum">F10</div><div class="slbl">Client Scale</div></div>
+      <div><div class="snum">NASA</div><div class="slbl">Studio Partner</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="wrap">
+    <div class="strip-inner">
+      <div class="si reveal"><div class="sin">// 01</div><div class="sit">AI Operations Veteran</div><p class="sib">Built human-in-the-loop workflows for Fortune 10 clients. I understand AI not as a concept, but as a system that needs QA, governance, and human judgment to function.</p></div>
+      <div class="si reveal d1"><div class="sin">// 02</div><div class="sit">Strategy-to-Execution Bridge</div><p class="sib">Strategy only matters if it holds in execution. My background runs from dataset annotation to Parsons foresight research — I operate across the full problem stack.</p></div>
+      <div class="si reveal d2"><div class="sin">// 03</div><div class="sit">Systems-Grounded Designer</div><p class="sib">MS in Strategic Design &amp; Management. I use design as a lens to decode complex systems — not to make things look good, but to make them work better.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about" style="position:relative;z-index:1;">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <span class="lbl">// About</span>
+        <h2 class="sec-h" style="margin-top:.7rem;">The operator<br/>behind the<br/><span>strategy.</span></h2>
+      </div>
+      <div class="about-body reveal d1">
+        <p>I started my career not in a consulting firm or design school — but in the engine room of AI. At Accenture, I spent five years working directly on the data operations that make AI systems actually function: annotation pipelines, quality audits, model evaluation, SLA management for Fortune 10 clients. I led a 10-person team and saw firsthand how strategy collapses when execution isn't understood.</p>
+        <p>That experience is the lens I bring to everything. Now, as an MS candidate at Parsons School of Design <strong>(4.0 GPA, graduating 2026)</strong>, I'm building the strategic layer — systems thinking, design foresight, impact entrepreneurship — on top of operational foundations most strategists don't have.</p>
+        <p>I'm currently doing market research at The Style That Binds Us, serving as President of the Toastmasters Club at The New School, and finishing my thesis on post-labor economic design. I'm a mentee in AIGA NY's Applied Mentorship Program and a member of <em>intersection</em>, a global community advancing climate and social justice through design.</p>
+        <p>Looking for roles in <strong>Product Strategy, Product Management, UX Strategy, or Innovation Consulting</strong> — where I can operate across research, systems design, and execution.</p>
+        <div class="tags">
+          <span class="tag">Human-in-the-Loop AI</span><span class="tag">Product Strategy</span><span class="tag">Systems Thinking</span><span class="tag">UX Research</span><span class="tag">Strategic Foresight</span><span class="tag">Data Quality</span><span class="tag">Tableau</span><span class="tag">Figma</span><span class="tag">Agile</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION STRIP -->
+<div class="edu-strip">
+  <div class="wrap">
+    <div class="edu-inner">
+      <div class="edu-item reveal">
+        <div class="edu-badge">MS</div>
+        <div class="edu-info">
+          <div class="edu-school">Parsons School of Design, The New School</div>
+          <div class="edu-degree">Strategic Design &amp; Management · Impact Entrepreneurship</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-gpa">GPA 4.0</div>
+          <div class="edu-year">2024 – 2026</div>
+        </div>
+        <div class="edu-avail">
+          <span class="edu-dot"></span>
+          Available from June 1, 2026
+        </div>
+      </div>
+      <div class="edu-divider"></div>
+      <div class="edu-item reveal d1">
+        <div class="edu-badge">BA</div>
+        <div class="edu-info">
+          <div class="edu-school">Amity University Delhi</div>
+          <div class="edu-degree">Journalism &amp; Mass Communication · Class Representative</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-gpa" style="visibility:hidden">–</div>
+          <div class="edu-year">2016 – 2019</div>
+        </div>
+        <div style="width:160px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="section" id="work" style="position:relative;z-index:1;">
+  <div class="wrap">
+    <div class="whd reveal">
+      <div>
+        <span class="lbl">// 02 · Selected Work</span>
+        <h2 class="sec-h">Case <span>Studies</span></h2>
+      </div>
+      <p style="font-family:var(--mono);font-size:.66rem;color:var(--txm);max-width:200px;text-align:right;letter-spacing:.06em;">Click to expand full case study</p>
+    </div>
+    <div class="cases">
+
+      <div class="case reveal">
+        <div class="chd"><span class="cn">01</span>
+          <div><div class="ct">AI Data Operations Excellence @ Accenture</div><div class="chips"><span class="chip">AI Ops</span><span class="chip">Delivery Mgmt</span><span class="chip">Quality Systems</span></div></div>
+          <div class="tog">+</div></div>
+        <div class="cbody">
+          <div class="cgrid">
+            <div><div class="cbl">// Problem</div><p class="cbt">An AI data operations program for a Fortune 10 client was producing inconsistent evaluation quality — recurring annotation errors, no unified SLA visibility, and unclear root causes across a distributed team.</p></div>
+            <div><div class="cbl">// Context</div><p class="cbt">Training data quality determines how AI models perform in real products. A systematic gap between what was annotated and what was correct meant downstream AI — voice recognition, handwriting detection, predictive text — would be unreliable at scale for millions of users.</p></div>
+            <div><div class="cbl">// Approach</div><p class="cbt">Audited the full evaluation pipeline to find error injection points. Redesigned annotation guidelines based on root-cause analysis. Built Tableau dashboards for real-time QA and SLA visibility. Created operational documentation to enforce consistency across the distributed team.</p></div>
+            <div><div class="cbl">// Execution</div><p class="cbt">Led daily QA ops for 10 people while simultaneously redesigning the underlying workflow. Acted as primary coordination point between QA, HR, and technical support. Participated in hiring to embed new quality standards from day one.</p></div>
+          </div>
+          <div class="ibox"><div class="cbl">// Measured Impact</div><ul><li>Quality performance lifted 90% → 98% within 3 months — 8-point gain sustained across full team</li><li>Tableau dashboards adopted by leadership as standard operational visibility tool</li><li>Onboarding documentation cut ramp time across successive analyst cohorts</li><li>Delivery continuity maintained through COVID-19 remote operations transition</li></ul></div>
+          <div class="qbox"><div class="cbl">// Key Insight</div><p>"Quality isn't a checkpoint — it's a system design problem. The 8-point gain came from finding where the workflow was structurally producing errors, not from telling people to try harder."</p></div>
+        </div>
+      </div>
+
+      <div class="case reveal d1">
+        <div class="chd"><span class="cn">02</span>
+          <div><div class="ct">Marketing Infrastructure Build @ Waiting Room Publishing</div><div class="chips"><span class="chip">Marketing Strategy</span><span class="chip">Growth Systems</span><span class="chip">Lifecycle Automation</span></div></div>
+          <div class="tog">+</div></div>
+        <div class="cbody">
+          <div class="cgrid">
+            <div><div class="cbl">// Problem</div><p class="cbt">A B2B publishing startup had no marketing infrastructure — no CRM, no defined segments, no way to convert audience interest into sustainable engagement. They needed to build from zero in a constrained timeline.</p></div>
+            <div><div class="cbl">// Context</div><p class="cbt">Early-stage B2B companies often prioritize product over audience development. Without a targeting framework or lifecycle system, every campaign is a one-off experiment. The company needed durable infrastructure, not just content.</p></div>
+            <div><div class="cbl">// Approach</div><p class="cbt">Started with segmentation — designed an ICP framework across Healthcare, Seniors, and End-of-Life verticals. Used that as the backbone for CRM architecture, outreach workflows, and lifecycle email automation built around behavioral triggers.</p></div>
+            <div><div class="cbl">// Execution</div><p class="cbt">Built end-to-end: ICP framework → CRM architecture → segmented lists → lifecycle journeys → performance tracking. Ran iterative experiments. Created operational playbooks ensuring continuity beyond the internship.</p></div>
+          </div>
+          <div class="ibox"><div class="cbl">// Measured Impact</div><ul><li>Email open rates improved ~28% → ~60%+ — more than doubling industry average</li><li>Click-through rates reached up to 20% — strong outperformance for early-stage B2B</li><li>First ICP framework built and adopted as the company-wide targeting standard</li><li>Full marketing playbook documented for post-internship continuity</li></ul></div>
+          <div class="qbox"><div class="cbl">// Key Insight</div><p>"The open rate gains weren't about better subject lines — they came from tightening who receives what message. Segmentation did more than copy optimization."</p></div>
+        </div>
+      </div>
+
+      <div class="case reveal d2">
+        <div class="chd"><span class="cn">03</span>
+          <div><div class="ct">Y.E.E.T. — Orbital Debris Simulation · NASA × Parsons</div><div class="chips"><span class="chip">Strategic Design</span><span class="chip">Foresight Research</span><span class="chip">Stakeholder Comms</span></div></div>
+          <div class="tog">+</div></div>
+        <div class="cbody">
+          <div class="cgrid">
+            <div><div class="cbl">// Problem</div><p class="cbt">Low Earth Orbit is congested with debris from defunct satellites. Policy frameworks lag behind the technical complexity. Challenge: how do you make a systems governance problem tangible and actionable for stakeholders?</p></div>
+            <div><div class="cbl">// Context</div><p class="cbt">Parsons partnered with NASA to develop design-led concepts for orbital sustainability. Simulation and game design were proposed as engagement formats — letting stakeholders experience the tradeoffs rather than read about them.</p></div>
+            <div><div class="cbl">// Approach</div><p class="cbt">Conducted 8 expert stakeholder interviews. Mapped existing debris removal systems and governance gaps. Ran 4-week speculative design workshops to build 3 faction-based scenarios. Designed gameplay mechanics grounded in real orbital physics.</p></div>
+            <div><div class="cbl">// Execution</div><p class="cbt">Led narrative design and faction world-building. Developed speculative foresight model across 2030–2050 governance scenarios. Built interactive prototype used in NASA workshops. Presented to NASA ISS Directors at final studio review.</p></div>
+          </div>
+          <div class="ibox"><div class="cbl">// Measured Impact</div><ul><li>Presented to NASA ISS Directors — praised for policy relevance and engagement innovation</li><li>8 expert interviews informing 3 distinct governance scenarios</li><li>Interactive prototype successfully facilitated real policy discussions</li></ul></div>
+          <div class="qbox"><div class="cbl">// Key Insight</div><p>"The game wasn't entertainment — it was a structured decision framework. Stakeholders playing factions with competing incentives understood governance tradeoffs faster than any slide deck could convey."</p></div>
+        </div>
+      </div>
+
+      <div class="case reveal d3">
+        <div class="chd"><span class="cn">04</span>
+          <div><div class="ct">Extra Omnes — Post-Labor Economic Governance Thesis</div><div class="chips"><span class="chip">Policy Foresight</span><span class="chip">Systems Modeling</span><span class="chip">Ethical AI</span></div></div>
+          <div class="tog">+</div></div>
+        <div class="cbody">
+          <div class="cgrid">
+            <div><div class="cbl">// Problem</div><p class="cbt">As AI and robotics automate labor, economic models tying human income to employment are structurally at risk. Existing policy responses don't fully address the scale or equity implications of productivity-without-work.</p></div>
+            <div><div class="cbl">// Context</div><p class="cbt">Parsons "New Economies" Seminar challenged students to design systemic responses to emerging economic futures. If machines generate all the value — who owns the output?</p></div>
+            <div><div class="cbl">// Approach</div><p class="cbt">Analyzed 15 economic models across automation, tax policy, and wealth distribution literature. Developed 4 future scenarios spanning 2030–2050. Modeled a Robot Labor Tax mechanism and equity distribution system.</p></div>
+            <div><div class="cbl">// Execution</div><p class="cbt">Produced a 30-page research report, policy framework document, and interactive prototype demonstrating a time-as-currency exchange concept. Applied foresight methods to evaluate second and third-order societal implications.</p></div>
+          </div>
+          <div class="ibox"><div class="cbl">// Outputs & Recognition</div><ul><li>30-page research report + policy framework delivered as thesis</li><li>Interactive time-as-currency prototype built and demonstrated</li><li>Faculty recognition for originality, clarity, and critical systems thinking</li><li>15 economic models analyzed across 4 scenarios (2030–2050)</li></ul></div>
+          <div class="qbox"><div class="cbl">// Key Insight</div><p>"The question isn't whether AI will replace labor — it's whether we've designed the economic infrastructure for what comes after. Policy design and product strategy face the same problem: systems thinking applied too late."</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="rule" />
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience" style="position:relative;z-index:1;">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:3rem;">
+      <span class="lbl">// 03 · Experience</span>
+      <h2 class="sec-h">Where I've <span>worked.</span></h2>
+    </div>
+    <div class="expwrap">
+
+      <div class="tl">
+        <div class="ti reveal" id="acc1">
+          <div class="titop"><div><div class="tirole">Delivery Excellence Lead / BPDA</div><div class="tico">Accenture · Gurugram, India</div></div><div class="tidt">Jun 2023 – Jul 2024</div></div>
+          <ul class="til"><li>Led QA operations for 10-member team on high-volume ML training data workflows for Fortune 10 clients</li><li>Redesigned annotation guidelines after root-cause audit — lifted quality 90% → 98% in 3 months</li><li>Built Tableau dashboards tracking productivity, quality, and SLA metrics adopted by leadership</li><li>Coordinated cross-functional comms across operations, HR, and technical support</li></ul>
+        </div>
+        <div class="ti reveal d1">
+          <div class="titop"><div><div class="tirole">Trust &amp; Safety Associate · Quality Auditor</div><div class="tico">Accenture · Gurugram, India</div></div><div class="tidt">Apr 2021 – Jun 2023</div></div>
+          <ul class="til"><li>Supervised 19-member audit team evaluating handwriting recognition datasets for stylus-based AI (Fortune 50 client)</li><li>Validated training data for voice assistant accuracy, predictive text, and handwriting features</li><li>Designed and led onboarding training for new analysts from 2021 onward across successive cohorts</li></ul>
+        </div>
+        <div class="ti reveal">
+          <div class="titop"><div><div class="tirole">Data Associate — AI Dataset Pilot Program</div><div class="tico">Accenture · Gurugram, India</div></div><div class="tidt">Aug 2019 – Apr 2021</div></div>
+          <ul class="til"><li>Selected for pilot team developing computer vision training datasets for Fortune 10 technology client</li><li>Contributed to creation and validation of 100,000+ annotated images for object recognition models</li><li>Maintained data quality and SLA compliance through COVID-19 remote operations transition</li></ul>
+        </div>
+        <div class="ti reveal d1" id="nasa">
+          <div class="titop"><div><div class="tirole">Design Strategist — NASA Studio Partnership</div><div class="tico">Parsons School of Design × NASA · New York, NY</div></div><div class="tidt">Jan – May 2025</div></div>
+          <ul class="til"><li>Co-developed Y.E.E.T. orbital debris simulation; foresight research and systems mapping on LEO operations</li><li>Designed interactive prototype used in NASA stakeholder workshops</li><li>Presented outcomes to NASA ISS Directors at final studio review</li></ul>
+        </div>
+        <div class="ti reveal" id="wr">
+          <div class="titop"><div><div class="tirole">Marketing &amp; Communications Intern</div><div class="tico">Waiting Room Publishing · Seattle, WA</div></div><div class="tidt">Aug – Dec 2025</div></div>
+          <ul class="til"><li>Built the company's first end-to-end marketing infrastructure: ICP framework, CRM, lifecycle automation</li><li>Designed email journeys achieving open rates ~60%+ and CTRs up to 20%</li><li>Created operational playbooks ensuring system continuity post-internship</li></ul>
+        </div>
+        <div class="ti reveal d1" id="autope">
+          <div class="titop"><div><div class="tirole">Product Design &amp; Development Intern</div><div class="tico">Autope Payment Solutions · Gurugram, India</div></div><div class="tidt">May – Aug 2025</div></div>
+          <ul class="til"><li>Contributed to UI/UX redesign of fintech dashboard via iterative Figma prototyping</li><li>Conducted user interviews and usability testing to identify friction points</li><li>Collaborated with engineering in Agile sprints to define and refine MVP features</li></ul>
+        </div>
+        <div class="ti reveal" id="cur">
+          <div class="titop"><div><div class="tirole">Market Research Analyst · Toastmasters President · AIGA NY Mentee</div><div class="tico">The Style That Binds Us · The New School · AIGA New York</div></div><div class="tidt">Jan 2026 – Present</div></div>
+          <ul class="til"><li>Conduct competitor research and audience analysis informing brand positioning at The Style That Binds Us</li><li>Elected President of Toastmasters Club at The New School (Mar 2026)</li><li>Selected for AIGA NY 2026 Applied Mentorship Program</li><li>Member of intersection — global community advancing climate and social justice through design</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule" />
+
+<!-- SKILLS -->
+<section class="section" id="skills" style="background:var(--bg2);position:relative;z-index:1;">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:2.5rem;">
+      <span class="lbl">// 04 · Capabilities</span>
+      <h2 class="sec-h">What I bring to the <span>table.</span></h2>
+    </div>
+    <div class="skgrid">
+      <div class="sk reveal"><div class="ski">⚙️</div><div class="skt">AI &amp; Data Systems</div><ul class="skl"><li>Human-in-the-loop AI design</li><li>ML dataset quality management</li><li>Model evaluation workflows</li><li>Annotation pipeline design</li><li>Delivery excellence / SLA ops</li></ul></div>
+      <div class="sk reveal d1"><div class="ski">🧭</div><div class="skt">Strategy &amp; Research</div><ul class="skl"><li>Systems thinking &amp; mapping</li><li>Strategic foresight &amp; scenarios</li><li>Market &amp; competitor research</li><li>Stakeholder communication</li><li>Policy design &amp; analysis</li></ul></div>
+      <div class="sk reveal d2"><div class="ski">🎨</div><div class="skt">Design &amp; UX</div><ul class="skl"><li>UX research &amp; user interviews</li><li>Journey mapping &amp; personas</li><li>Figma prototyping</li><li>Wireframing &amp; concept design</li><li>Narrative &amp; visual strategy</li></ul></div>
+      <div class="sk reveal"><div class="ski">📊</div><div class="skt">Product &amp; Growth</div><ul class="skl"><li>Product requirements &amp; roadmaps</li><li>Agile sprint facilitation</li><li>Lifecycle email &amp; CRM systems</li><li>Performance analytics</li><li>Go-to-market strategy</li></ul></div>
+      <div class="sk reveal d1"><div class="ski">🛠️</div><div class="skt">Tools</div><ul class="skl"><li>Tableau</li><li>Figma · Framer · Miro</li><li>Excel / PowerPoint / Notion</li><li>ChatGPT / Midjourney</li></ul></div>
+      <div class="sk reveal d2"><div class="ski">🌐</div><div class="skt">Communication</div><ul class="skl"><li>Cross-functional stakeholder mgmt</li><li>Technical-to-business translation</li><li>Presentation &amp; story design</li><li>Hindi (native) · English (fluent)</li><li>Japanese (elementary)</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section class="locsec" id="locations">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="lbl">// 05 · Open To Work In</span>
+      <h2 class="sec-h">Where I'm <span>available.</span></h2>
+      <p style="font-size:.9rem;color:var(--txd);margin-top:.75rem;max-width:500px;">Open to full-time roles across these locations. Currently based in New York City — available to relocate for the right opportunity.</p>
+    </div>
+    <div class="locgrid">
+      <div class="lcard cur reveal"><span class="lflag">🇺🇸</span><div class="lcity">New York City</div><div class="lcountry">United States</div><div class="lstatus cur">Currently Based Here</div></div>
+      <div class="lcard reveal d1"><span class="lflag">🇬🇧</span><div class="lcity">London</div><div class="lcountry">United Kingdom</div><div class="lstatus open">Open to Relocate</div></div>
+      <div class="lcard reveal d2"><span class="lflag">🇳🇱</span><div class="lcity">Amsterdam</div><div class="lcountry">Netherlands</div><div class="lstatus open">Open to Relocate</div></div>
+      <div class="lcard reveal d3"><span class="lflag">🇮🇳</span><div class="lcity">Gurugram</div><div class="lcountry">India</div><div class="lstatus open">Open to Relocate</div></div>
+      <div class="lcard reveal d3"><span class="lflag">🌐</span><div class="lcity">Remote</div><div class="lcountry">Global</div><div class="lstatus open">Open to Remote</div></div>
+    </div>
+    <div class="reloc reveal">
+      <div class="rdot"></div>
+      <div class="rtxt"><strong>Full-time availability from June 1, 2026</strong> · Graduating Parsons MS May 2026 · Open to sponsorship conversations · Willing to relocate for the right role</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="ctcsec" id="contact">
+  <div class="wrap">
+    <div class="ctcgrid">
+      <div class="reveal">
+        <span class="lbl">// 06 · Contact</span>
+        <div class="ctch">Let's build something<br/><span>worth building.</span></div>
+        <p class="ctcsub">Open to full-time roles in Product Management, Product Strategy, UX Strategy, and Innovation Consulting. Let's talk.</p>
+        <div class="avail"><div class="dot"></div>Available June 1, 2026</div>
+      </div>
+      <div class="reveal d1">
+        <div class="ctclinks">
+          <a href="mailto:abhishektewari71@gmail.com" class="cl"><span class="cll">Email</span><span>abhishektewari71@gmail.com</span><span class="cla">→</span></a>
+          <a href="https://www.linkedin.com/in/abhishek-tewari/" target="_blank" rel="noopener" class="cl"><span class="cll">LinkedIn</span><span>linkedin.com/in/abhishek-tewari</span><span class="cla">→</span></a>
+          <a href="tel:+19298420700" class="cl"><span class="cll">Phone</span><span>+1 (929) 842-0700</span><span class="cla">→</span></a>
+          <div class="cl" style="cursor:default;"><span class="cll">Locations</span><span>NYC · London · Amsterdam · Gurugram · Remote</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>Abhishek Tewari</span> · New York, NY</p>
+  <p>Designed for clarity. Built for <span>outcomes.</span></p>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+
+  // Smooth scroll for ALL anchor links (nav + hero buttons)
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = target.getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Case accordions
+  document.querySelectorAll('.case').forEach(c => {
+    c.querySelector('.chd').addEventListener('click', () => {
+      document.querySelectorAll('.case.open').forEach(o => { if(o!==c) o.classList.remove('open'); });
+      c.classList.toggle('open');
+    });
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); }});
+  }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Experience nav
+  document.querySelectorAll('.enl').forEach(l => {
+    l.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.enl').forEach(x => x.classList.remove('active'));
+      l.classList.add('active');
+      const t = document.querySelector(l.getAttribute('href'));
+      if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // Active nav highlight on scroll
+  const secs = ['about','work','experience','skills','locations','contact'];
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(id => { const el = document.getElementById(id); if(el && scrollY >= el.offsetTop - 120) cur = id; });
+    document.querySelectorAll('.nlinks a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === `#${cur}`);
+    });
+  });
+</script>
+</body>
+</html>
